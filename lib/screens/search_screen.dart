@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import '../widgets/common/custom_tab_bar.dart';
 import '../widgets/search_widgets/search_header.dart';
 import '../widgets/search_widgets/search_input.dart';
 import '../widgets/search_widgets/menu_items.dart';
-import '../widgets/search_widgets/custom_tab_bar.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -19,33 +19,28 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                const SearchHeader(),
-                const SizedBox(height: 26),
-                SearchInput(
-                  onChanged: (value) {
-                    setState(() {
-                      searchText = value.toLowerCase();
-                    });
-                  },
-                ),
-                const SizedBox(height: 17),
-                MenuItems(searchText: searchText),
-                const Spacer(),
-              ],
+            const SearchHeader(),
+            const SizedBox(height: 8),
+            SearchInput(
+              onChanged: (value) {
+                setState(() {
+                  searchText = value.toLowerCase();
+                });
+              },
             ),
-            const Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: CustomTabBar(),
+            const SizedBox(height: 16),
+            Expanded(
+              child: SingleChildScrollView(
+                child: MenuItems(searchText: searchText),
+              ),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: const CustomTabBar(currentIndex: 1),
     );
   }
 }

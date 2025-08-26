@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import '../widgets/workouts_widgets/exercise_card.dart';
-import '../widgets/workouts_widgets/custom_tab_bar.dart';
+import '../widgets/common/custom_tab_bar.dart';
 
 class WorkoutsScreen extends StatelessWidget {
   const WorkoutsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: SizedBox(
           child: Column(
             children: [
-              // Header section
               Container(
                 width: double.infinity,
                 height: 52,
@@ -40,11 +37,24 @@ class WorkoutsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // Exercise list section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Rutinas',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w400,
+                      height: 1.33,
+                      fontFamily: 'Roboto',
+                    ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.only(top: 32),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ListView(
                     children: const [
@@ -82,14 +92,12 @@ class WorkoutsScreen extends StatelessWidget {
                         title: 'RUNNING',
                         duration: '20 MIN',
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 80),
                     ],
                   ),
                 ),
               ),
-
-              // Bottom tab bar
-              CustomTabBar(screenWidth: screenWidth),
+              const CustomTabBar(currentIndex: 4),
             ],
           ),
         ),

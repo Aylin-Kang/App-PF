@@ -5,34 +5,41 @@ class ChevronIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 20,
-      height: 20,
-      child: Stack(
-        children: [
-          // Background circle
-          Container(
-            width: 20,
-            height: 20,
-            decoration: const BoxDecoration(
-              color: Color(0xFF000000),
-              shape: BoxShape.circle,
-            ),
-          ),
-
-          // Chevron icon
-          Positioned(
-            left: 7,
-            top: 3,
-            child: SizedBox(
-              width: 7,
-              height: 14,
-              child: CustomPaint(
-                painter: ChevronPainter(),
+    return Material(
+      color: Colors.transparent,
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: () {}, // efecto visual, no hace nada
+        child: SizedBox(
+          width: 20,
+          height: 20,
+          child: Stack(
+            children: [
+              // Background circle
+              Container(
+                width: 20,
+                height: 20,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF000000),
+                  shape: BoxShape.circle,
+                ),
               ),
-            ),
+              // Chevron icon
+              Positioned(
+                left: 7,
+                top: 3,
+                child: SizedBox(
+                  width: 7,
+                  height: 14,
+                  child: CustomPaint(
+                    painter: ChevronPainter(),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -44,7 +51,6 @@ class ChevronPainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
-
     final path = Path();
     path.moveTo(4.77561, 6.999);
     path.lineTo(0.789529, 3.01292);
@@ -59,7 +65,6 @@ class ChevronPainter extends CustomPainter {
     path.cubicTo(0.675626, 11.2836, 0.675626, 11.099, 0.789529, 10.9851);
     path.lineTo(4.77561, 6.999);
     path.close();
-
     canvas.drawPath(path, paint);
   }
 

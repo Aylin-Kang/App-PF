@@ -32,7 +32,7 @@ class BannerSection extends StatelessWidget {
               width: screenWidth <= 640 ? bannerWidth - 40 : 187,
               height: 150,
               child: Text(
-                'Muevete al ritmo de la música',
+                'Muevete con ViBands',
                 style: TextStyle(
                   color: const Color(0xFFFFFFFF),
                   fontSize: screenWidth <= 640 ? 28 : 36,

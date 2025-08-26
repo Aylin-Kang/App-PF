@@ -29,7 +29,7 @@ class SearchInput extends StatelessWidget {
                 color: Colors.white,
               ),
               decoration: const InputDecoration(
-                hintText: 'Búsqueda',
+                hintText: 'Buscar por nombre de canción o rutina',
                 hintStyle: TextStyle(color: Color(0xFF828282)),
                 border: InputBorder.none,
                 isDense: true,

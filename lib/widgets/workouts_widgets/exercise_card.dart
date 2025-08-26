@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/data/favourites_manager.dart';
 
-class ExerciseCard extends StatelessWidget {
+class ExerciseCard extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String duration;
@@ -13,89 +14,99 @@ class ExerciseCard extends StatelessWidget {
   });
 
   @override
+  State<ExerciseCard> createState() => _ExerciseCardState();
+}
+
+class _ExerciseCardState extends State<ExerciseCard> {
+  late bool isFavourite;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavourite = FavouritesManager.isFavourite(widget.title, 'workout');
+  }
+
+  void toggleFavourite() {
+    setState(() {
+      if (isFavourite) {
+        FavouritesManager.removeFavourite(widget.title, 'workout');
+        isFavourite = false;
+      } else {
+        FavouritesManager.addFavourite(
+          widget.title,
+          widget.imageUrl,
+          'workout',
+          duration: widget.duration,
+        );
+        isFavourite = true;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFA2A2A2), width: 1),
-      ),
-      child: Row(
-        children: [
-          // Exercise image
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: const Color(0xFF2A2A2A),
-                    child: const Icon(
-                      Icons.fitness_center,
-                      color: Color(0xFF747474),
-                      size: 40,
-                    ),
-                  );
-                },
-              ),
-            ),
+        onTap: () {},
+        child: Container(
+          height: 120,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFA2A2A2), width: 1),
           ),
-
-          const SizedBox(width: 16),
-
-          // Content section
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Exercise title
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: -0.48,
-                      fontFamily: 'Aboreto',
-                      height: 34 / 24,
-                    ),
-                  ),
-
-                  // Duration section
-                  SizedBox(
-                    height: 24,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            duration,
-                            style: const TextStyle(
-                              color: Color(0xFF49454F),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 0.4,
-                              fontFamily: 'Roboto',
-                              height: 16 / 12,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Imagen
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  bottomLeft: Radius.circular(12),
+                ),
+                child: Image.network(
+                  widget.imageUrl,
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              // Texto
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.duration,
+                      style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      widget.title,
+                      style: const TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                  ],
+                ),
+              ),
+              // Corazón
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: GestureDetector(
+                  onTap: toggleFavourite,
+                  child: Icon(
+                    isFavourite ? Icons.favorite : Icons.favorite_border,
+                    size: 28,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
-
-          const SizedBox(width: 16),
-        ],
+        ),
       ),
     );
   }

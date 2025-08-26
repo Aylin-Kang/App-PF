@@ -1,58 +1,52 @@
 import 'package:flutter/material.dart';
 
 class SongItem extends StatelessWidget {
-  final String imageUrl;
   final String title;
+  final String imageUrl;
 
-  const SongItem({super.key, required this.imageUrl, required this.title});
+  const SongItem({super.key, required this.title, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Circular image
-          Container(
-            width: 76,
-            height: 76,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(38),
-              border: Border.all(color: const Color(0xFFA2A2A2), width: 1),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(38),
-              child: Container(
-                color: const Color(0xFFA2A2A2), // Placeholder color
-                child: const Icon(
-                  Icons.music_note,
-                  color: Colors.white,
-                  size: 32,
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {},
+        child: Container(
+          height: 120,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFA2A2A2), width: 1),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Imagen circular
+              Container(
+                width: 76,
+                height: 76,
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(38),
+                  border: Border.all(color: const Color(0xFFA2A2A2), width: 1),
+                  image: DecorationImage(
+                    image: NetworkImage(imageUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Song title
-          SizedBox(
-            width: 76,
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                height: 1.4,
-                letterSpacing: 0.136,
-                color: Color(0xFFFFFFFF),
+              // Título
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                ),
               ),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
