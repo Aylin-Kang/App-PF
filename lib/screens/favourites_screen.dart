@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../widgets/favourites_widgets/song_item.dart';
+import '../widgets/songs_widgets/song_item.dart';
 import '../widgets/favourites_widgets/exercise_card.dart';
-import '../widgets/favourites_widgets/chevron_icon.dart';
 import '../widgets/common/custom_tab_bar.dart';
 import 'package:myapp/data/favourites_manager.dart';
+import './favourites_list_screen.dart';
 
 class FavouritesScreen extends StatefulWidget {
   const FavouritesScreen({super.key});
@@ -51,118 +51,125 @@ class _FavouritesState extends State<FavouritesScreen> {
               ),
               const SizedBox(height: 17),
               // Canciones
-              SizedBox(
-                width: double.infinity,
-                height: 158,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, // <-- Alineación a la izquierda
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: 38,
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Row(
-                        children: const [
-                          Text(
-                            'Tus canciones',
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          ChevronIcon(),
-                        ],
+                    const Text(
+                      'Tus canciones',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
                       ),
                     ),
-                    Expanded(
-                      child: songs.isNotEmpty
-                          ? ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              itemCount: songs.length,
-                              separatorBuilder: (_, __) => const SizedBox(width: 24),
-                              itemBuilder: (context, index) {
-                                final song = songs[index];
-                                return SongItem(
-                                  title: song['title'] ?? '',
-                                  imageUrl: song['imageUrl'] ?? '',
-                                );
-                              },
-                            )
-                          : const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: Align(
-                                alignment: Alignment.centerLeft, // <-- Alineación a la izquierda y centrado vertical
-                                child: Text(
-                                  "No tienes canciones en favoritos",
-                                  style: TextStyle(color: Color(0xFF49454F)),
-                                ),
-                              ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const FavouritesListScreen(
+                              title: 'Tus canciones',
+                              type: 'song',
                             ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 12),
-              // Ejercicios
-              SizedBox( // <-- Envuelve la columna en un SizedBox para definir su altura
-                width: double.infinity,
-                height: 158,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, // <-- Alineación a la izquierda
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 38,
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Row(
-                        children: const [
-                          Text(
-                            'Tus rutinas de ejercicios',
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
+              SizedBox(
+                height: 120,
+                child: songs.isNotEmpty
+                    ? ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: songs.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 24),
+                        itemBuilder: (context, index) {
+                          final song = songs[index];
+                          return SongItem(
+                            title: song['title'] ?? '',
+                            imageUrl: song['imageUrl'] ?? '',
+                            isForFavouritesView: true,
+                          );
+                        },
+                      )
+                    : const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "No tienes canciones en favoritos",
+                            style: TextStyle(color: Color(0xFF49454F)),
                           ),
-                          SizedBox(width: 10),
-                          ChevronIcon(),
-                        ],
+                        ),
+                      ),
+              ),
+              const SizedBox(height: 24),
+              // Ejercicios
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Tus rutinas de ejercicios',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
                       ),
                     ),
-                    Expanded(
-                      child: workouts.isNotEmpty
-                          ? ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              itemCount: workouts.length,
-                              separatorBuilder: (_, __) => const SizedBox(width: 12),
-                              itemBuilder: (context, index) {
-                                final workout = workouts[index];
-                                return ExerciseCard(
-                                  title: workout['title'] ?? '',
-                                  imageUrl: workout['imageUrl'] ?? '',
-                                  duration: workout['duration'] ?? '',
-                                );
-                              },
-                            )
-                          : const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: Align(
-                                alignment: Alignment.centerLeft, // <-- Alineación a la izquierda y centrado vertical
-                                child: Text(
-                                  "No tienes rutinas de ejercicios en favoritos",
-                                  style: TextStyle(color: Color(0xFF49454F)),
-                                ),
-                              ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const FavouritesListScreen(
+                              title: 'Tus rutinas de ejercicios',
+                              type: 'workout',
                             ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 180,
+                child: workouts.isNotEmpty
+                    ? ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: workouts.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 12),
+                        itemBuilder: (context, index) {
+                          final workout = workouts[index];
+                          return ExerciseCard(
+                            title: workout['title'] ?? '',
+                            imageUrl: workout['imageUrl'] ?? '',
+                            duration: workout['duration'] ?? '',
+                          );
+                        },
+                      )
+                    : const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "No tienes rutinas de ejercicios en favoritos",
+                            style: TextStyle(color: Color(0xFF49454F)),
+                          ),
+                        ),
+                      ),
               ),
               const SizedBox(height: 27),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/data/mock_data.dart';
 import '../widgets/common/custom_tab_bar.dart';
 import '../widgets/songs_widgets/song_item.dart';
 
@@ -49,51 +50,39 @@ class SongsScreen extends StatelessWidget {
                         fontFamily: 'Roboto',
                       ),
                     ),
-                    Image.asset(
-                      'assets/images/add_circle.png',
-                      width: 24,
-                      height: 24,
-                      fit: BoxFit.contain,
+                    Material(
+                      color: Colors.transparent,
+                      shape: const CircleBorder(),
+                      child: InkWell(
+                        customBorder: const CircleBorder(),
+                        onTap: () {}, // empty onTap for visual effect only
+                        child: Image.asset(
+                          'assets/images/add_circle.png',
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
               // Songs list
               Expanded(
-                child: ListView(
+                child: ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  children: const [
-                    SongItem(
-                      title: 'Canción 1',
-                      imageUrl:
-                          'https://api.builder.io/api/v1/image/assets/TEMP/276bd0634fdfe4a63b3d5ee2998b168b5cfd51af?placeholderIfAbsent=true',
-                    ),
-                    SizedBox(height: 16),
-                    SongItem(
-                      title: 'Canción 2',
-                      imageUrl:
-                          'https://api.builder.io/api/v1/image/assets/TEMP/276bd0634fdfe4a63b3d5ee2998b168b5cfd51af?placeholderIfAbsent=true',
-                    ),
-                    SizedBox(height: 16),
-                    SongItem(
-                      title: 'Canción 3',
-                      imageUrl:
-                          'https://api.builder.io/api/v1/image/assets/TEMP/276bd0634fdfe4a63b3d5ee2998b168b5cfd51af?placeholderIfAbsent=true',
-                    ),
-                    SizedBox(height: 16),
-                    SongItem(
-                      title: 'Canción 4',
-                      imageUrl:
-                          'https://api.builder.io/api/v1/image/assets/TEMP/276bd0634fdfe4a63b3d5ee2998b168b5cfd51af?placeholderIfAbsent=true',
-                    ),
-                    SizedBox(height: 16),
-                    SongItem(
-                      title: 'Canción 5',
-                      imageUrl:
-                          'https://api.builder.io/api/v1/image/assets/TEMP/276bd0634fdfe4a63b3d5ee2998b168b5cfd51af?placeholderIfAbsent=true',
-                    ),
-                    SizedBox(height: 80),
-                  ],
+                  itemCount: mockSongs.length,
+                  itemBuilder: (context, index) {
+                    final song = mockSongs[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: SongItem(
+                        title: song.title,
+                        subtitle: song.artist,
+                        imageUrl: song.imageUrl,
+                      ),
+                    );
+                  },
                 ),
               ),
               // Global bottom tab bar

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/data/favourites_manager.dart';
 import 'core/app_router.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FavouritesManager.init();
   runApp(const MyApp());
 }
 
